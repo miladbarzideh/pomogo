@@ -15,6 +15,7 @@ type Config struct {
 type Server struct {
 	AppVersion string `mapstructure:"app-version"`
 	Port       string `mapstructure:"port"`
+	LogLevel   string `mapstructure:"log-level"`
 }
 
 // Load config file from given path
