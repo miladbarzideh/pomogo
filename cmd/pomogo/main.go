@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/miladbarzideh/pomogo/internal/routes"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/miladbarzideh/pomogo/internal/domain/routes"
 	"github.com/miladbarzideh/pomogo/internal/infra/config"
 	"github.com/miladbarzideh/pomogo/internal/infra/logger"
 	"go.uber.org/zap"
