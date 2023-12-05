@@ -2,3 +2,10 @@ server:
   app-version: 0.0.1
   port: 8513
   log-level: info
+
+postgres:
+  host: localhost
+  port: 5432
+  user: root
+  password: root
+  db-name: pomogo

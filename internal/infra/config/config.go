@@ -8,7 +8,8 @@ import (
 
 // Config App config struct
 type Config struct {
-	Server Server `mapstructure:"server"`
+	Server   Server   `mapstructure:"server"`
+	Postgres Postgres `mapstructure:"postgres"`
 }
 
 // Server config struct
@@ -16,6 +17,14 @@ type Server struct {
 	AppVersion string `mapstructure:"app-version"`
 	Port       string `mapstructure:"port"`
 	LogLevel   string `mapstructure:"log-level"`
+}
+
+type Postgres struct {
+	Host     string `mapstructure:"host"`
+	Port     string `mapstructure:"port"`
+	User     string `mapstructure:"user"`
+	Password string `mapstructure:"password"`
+	DbName   string `mapstructure:"db-name"`
 }
 
 // Load config file from given path
