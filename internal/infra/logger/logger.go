@@ -1,9 +1,9 @@
 package logger
 
 import (
+	"github.com/miladbarzideh/pomogo/internal/infra/config"
 	"log"
 
-	"github.com/miladbarzideh/pomogo/configs"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -11,7 +11,7 @@ import (
 var Logger *zap.Logger
 
 // Init Init Logger
-func Init(cfg *configs.Config) {
+func Init(cfg *config.Config) {
 	logLevel := getLoggerLevel(cfg)
 
 	config := zap.NewDevelopmentConfig()
@@ -24,7 +24,7 @@ func Init(cfg *configs.Config) {
 	Logger = logger
 }
 
-func getLoggerLevel(cfg *configs.Config) zapcore.Level {
+func getLoggerLevel(cfg *config.Config) zapcore.Level {
 	var level zapcore.Level
 	if err := level.Set(cfg.Server.LogLevel); err != nil {
 		log.Printf("Invalid log level %s", cfg.Server.LogLevel)
