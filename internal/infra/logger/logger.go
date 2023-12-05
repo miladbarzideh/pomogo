@@ -14,10 +14,10 @@ var Logger *zap.Logger
 func Init(cfg *config.Config) {
 	logLevel := getLoggerLevel(cfg)
 
-	config := zap.NewDevelopmentConfig()
+	zapCfg := zap.NewDevelopmentConfig()
 
-	config.Level.SetLevel(logLevel)
-	logger, err := config.Build()
+	zapCfg.Level.SetLevel(logLevel)
+	logger, err := zapCfg.Build()
 	if err != nil {
 		log.Fatal("Could not create Logger")
 	}
