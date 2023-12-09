@@ -1,27 +1,23 @@
 package logger
 
 import (
-	"github.com/miladbarzideh/pomogo/internal/infra/config"
 	"log"
 
+	"github.com/miladbarzideh/pomogo/internal/infra/config"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
-var Logger *zap.Logger
-
-// Init Init Logger
-func Init(cfg *config.Config) {
+// InitLogger Init Logger
+func InitLogger(cfg *config.Config) *zap.Logger {
 	logLevel := getLoggerLevel(cfg)
-
 	zapCfg := zap.NewDevelopmentConfig()
-
 	zapCfg.Level.SetLevel(logLevel)
 	logger, err := zapCfg.Build()
 	if err != nil {
 		log.Fatal("Could not create Logger")
 	}
-	Logger = logger
+	return logger
 }
 
 func getLoggerLevel(cfg *config.Config) zapcore.Level {
