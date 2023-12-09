@@ -1,12 +1,11 @@
 package main
 
 import (
-	"fmt"
-	"github.com/miladbarzideh/pomogo/internal/routes"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/miladbarzideh/pomogo/internal/app"
 	"github.com/miladbarzideh/pomogo/internal/infra/config"
+	"github.com/miladbarzideh/pomogo/internal/infra/db"
 	"github.com/miladbarzideh/pomogo/internal/infra/logger"
 	"go.uber.org/zap"
 )
@@ -18,14 +17,16 @@ func main() {
 		log.Fatal(err)
 	}
 
-	logger.Init(cfg)
-	logger.Logger.Info("starting pomogo", zap.String("app-version", cfg.Server.AppVersion))
+	zLog := logger.InitLogger(cfg)
+	zLog.Info("starting pomogo", zap.String("app-version", cfg.Server.AppVersion))
 
-	app := fiber.New()
-	routes.Initialize(app)
-
-	err = app.Listen(fmt.Sprintf(":%s", cfg.Server.Port))
+	postgresDb, err := db.NewConnection(cfg)
 	if err != nil {
-		log.Fatal(err)
+		zLog.Fatal("database connection failed", zap.Error(err))
+	}
+
+	server := app.NewServer(cfg, zLog, postgresDb)
+	if server.Run() != nil {
+		zLog.Fatal("failed to start the app", zap.Error(err))
 	}
 }
