@@ -21,17 +21,14 @@ func (s service) Create(project *project.Project) (*project.Project, error) {
 	return s.projectRepo.Create(project)
 }
 
-func (s service) GetByID(ID uint) (project.Project, error) {
-	//TODO implement me
-	panic("implement me")
+func (s service) GetByID(id uint) (*project.Project, error) {
+	return s.projectRepo.GetByID(id)
 }
 
-func (s service) Update(project project.Project) (project.Project, error) {
-	//TODO implement me
-	panic("implement me")
+func (s service) Update(project *project.Project) (*project.Project, error) {
+	return s.projectRepo.Update(project)
 }
 
-func (s service) DeleteById(ID uint) error {
-	//TODO implement me
-	panic("implement me")
+func (s service) DeleteById(id uint) error {
+	return s.projectRepo.DeleteById(id)
 }

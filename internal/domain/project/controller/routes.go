@@ -7,7 +7,7 @@ import (
 
 func MapProjectRoutes(projectGroup fiber.Router, handler project.Handler) {
 	projectGroup.Post("", handler.Create())
-	projectGroup.Get("", handler.GetByID())
-	projectGroup.Post("", handler.Update())
-	projectGroup.Post("", handler.DeleteById())
+	projectGroup.Get("/:id", handler.GetByID())
+	projectGroup.Put("", handler.Update())
+	projectGroup.Delete("/:id", handler.DeleteById())
 }

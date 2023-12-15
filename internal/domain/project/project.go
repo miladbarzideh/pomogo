@@ -16,16 +16,16 @@ type Project struct {
 
 type Repository interface {
 	Create(project *Project) (*Project, error)
-	GetByID(ID uint) (Project, error)
-	Update(project Project) (Project, error)
-	DeleteById(ID uint) error
+	GetByID(id uint) (*Project, error)
+	Update(project *Project) (*Project, error)
+	DeleteById(id uint) error
 }
 
 type Service interface {
 	Create(project *Project) (*Project, error)
-	GetByID(ID uint) (Project, error)
-	Update(project Project) (Project, error)
-	DeleteById(ID uint) error
+	GetByID(id uint) (*Project, error)
+	Update(project *Project) (*Project, error)
+	DeleteById(id uint) error
 }
 
 type Handler interface {
