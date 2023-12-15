@@ -17,7 +17,7 @@ func NewProjectService(projectRepo project.Repository, logger *zap.Logger) proje
 	}
 }
 
-func (s service) Create(project project.Project) (project.Project, error) {
+func (s service) Create(project *project.Project) (*project.Project, error) {
 	return s.projectRepo.Create(project)
 }
 

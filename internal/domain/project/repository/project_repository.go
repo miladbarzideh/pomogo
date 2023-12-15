@@ -13,7 +13,7 @@ func NewProjectRepository(db *gorm.DB) project.Repository {
 	return &repo{db: db}
 }
 
-func (r repo) Create(project project.Project) (project.Project, error) {
+func (r repo) Create(project *project.Project) (*project.Project, error) {
 	result := r.db.Create(project)
 	return project, result.Error
 }

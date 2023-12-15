@@ -25,7 +25,7 @@ func (h handler) Create() fiber.Handler {
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error()})
 		}
-		result, err := h.projectService.Create(*request)
+		result, err := h.projectService.Create(request)
 		if err != nil {
 			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": err.Error()})
 		}
