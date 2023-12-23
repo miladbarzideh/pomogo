@@ -23,8 +23,7 @@ func NewProjectHandler(projectService project.Service, logger *zap.Logger) proje
 func (h handler) Create() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		proj := new(project.Project)
-		err := ctx.BodyParser(proj)
-		if err != nil {
+		if err := ctx.BodyParser(proj); err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error()})
 		}
 
@@ -56,8 +55,7 @@ func (h handler) GetByID() fiber.Handler {
 func (h handler) Update() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		proj := new(project.Project)
-		err := ctx.BodyParser(proj)
-		if err != nil {
+		if err := ctx.BodyParser(proj); err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error()})
 		}
 
