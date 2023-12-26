@@ -3,6 +3,8 @@ package util
 import (
 	"errors"
 	"fmt"
+
+	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 	"net/http"
 )
@@ -60,10 +62,12 @@ func NewNotFoundError(causes interface{}) ResponseError {
 func mapErrors(err error) ResponseError {
 	var resErr ResponseError
 	switch {
-	case errors.Is(err, gorm.ErrRecordNotFound):
-		return NewNotFoundError(err)
 	case errors.As(err, &resErr):
 		return resErr
+	case errors.Is(err, gorm.ErrRecordNotFound):
+		return NewNotFoundError(err)
+	case errors.Is(err, fiber.ErrUnprocessableEntity):
+		return NewResponseError(fiber.ErrUnprocessableEntity.Code, fiber.ErrUnprocessableEntity.Message, err)
 	default:
 		return NewResponseError(http.StatusInternalServerError, err.Error(), err)
 	}

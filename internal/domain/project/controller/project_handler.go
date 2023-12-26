@@ -1,8 +1,6 @@
 package controller
 
 import (
-	"strconv"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/miladbarzideh/pomogo/internal/domain/project"
 	"github.com/miladbarzideh/pomogo/internal/domain/util"
@@ -71,7 +69,7 @@ func (h handler) Update() fiber.Handler {
 
 func (h handler) DeleteById() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		id, err := strconv.Atoi(ctx.Params("id"))
+		id, err := util.GetNumericIdentifier(ctx, "id")
 		if err != nil {
 			return fiber.NewError(util.ParseError(err))
 		}
