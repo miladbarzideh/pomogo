@@ -17,6 +17,7 @@ type Project struct {
 type Repository interface {
 	Create(project *Project) (*Project, error)
 	GetByID(id uint) (*Project, error)
+	GetAll() ([]Project, error)
 	Update(project *Project) (*Project, error)
 	DeleteById(id uint) error
 }
@@ -24,6 +25,7 @@ type Repository interface {
 type Service interface {
 	Create(project *Project) (*Project, error)
 	GetByID(id uint) (*Project, error)
+	GetAll() ([]Project, error)
 	Update(project *Project) (*Project, error)
 	DeleteById(id uint) error
 }
@@ -31,6 +33,7 @@ type Service interface {
 type Handler interface {
 	Create() fiber.Handler
 	GetByID() fiber.Handler
+	GetAll() fiber.Handler
 	Update() fiber.Handler
 	DeleteById() fiber.Handler
 }

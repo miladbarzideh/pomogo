@@ -25,6 +25,10 @@ func (s service) GetByID(id uint) (*project.Project, error) {
 	return s.projectRepo.GetByID(id)
 }
 
+func (s service) GetAll() ([]project.Project, error) {
+	return s.projectRepo.GetAll()
+}
+
 func (s service) Update(project *project.Project) (*project.Project, error) {
 	return s.projectRepo.Update(project)
 }

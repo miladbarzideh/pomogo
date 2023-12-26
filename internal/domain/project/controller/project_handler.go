@@ -63,6 +63,18 @@ func (h handler) GetByID() fiber.Handler {
 	}
 }
 
+func (h handler) GetAll() fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		projects, err := h.projectService.GetAll()
+		if err != nil {
+			h.logger.Error("failed to get all projects", zap.Error(err))
+			return fiber.NewError(util.ParseError(err))
+		}
+
+		return ctx.Status(fiber.StatusOK).JSON(projects)
+	}
+}
+
 func (h handler) Update() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		proj := new(project.Project)

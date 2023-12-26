@@ -24,6 +24,12 @@ func (r repo) GetByID(id uint) (*project.Project, error) {
 	return p, tx.Error
 }
 
+func (r repo) GetAll() ([]project.Project, error) {
+	var projects []project.Project
+	tx := r.db.Find(&projects)
+	return projects, tx.Error
+}
+
 func (r repo) Update(p *project.Project) (*project.Project, error) {
 	proj, err := r.GetByID(p.ID)
 	if err != nil {
