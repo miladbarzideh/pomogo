@@ -26,15 +26,18 @@ func (h handler) Create() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		proj := new(project.Project)
 		if err := ctx.BodyParser(proj); err != nil {
+			h.logger.Error("failed to parse body", zap.Error(err))
 			return fiber.NewError(util.ParseError(err))
 		}
 
 		if err := validate.Struct(proj); err != nil {
+			h.logger.Error("validation errors", zap.Error(err))
 			return fiber.NewError(util.ParseError(err))
 		}
 
 		result, err := h.projectService.Create(proj)
 		if err != nil {
+			h.logger.Error("failed to create the project", zap.Error(err))
 			return fiber.NewError(util.ParseError(err))
 		}
 
@@ -46,11 +49,13 @@ func (h handler) GetByID() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		id, err := util.GetNumericIdentifier(ctx, "id")
 		if err != nil {
+			h.logger.Error("failed to parse numeric ID", zap.Error(err))
 			return fiber.NewError(util.ParseError(err))
 		}
 
 		result, err := h.projectService.GetByID(uint(id))
 		if err != nil {
+			h.logger.Error("failed to find the project", zap.Error(err))
 			return fiber.NewError(util.ParseError(err))
 		}
 
@@ -62,15 +67,18 @@ func (h handler) Update() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		proj := new(project.Project)
 		if err := ctx.BodyParser(proj); err != nil {
+			h.logger.Error("failed to parse body", zap.Error(err))
 			return fiber.NewError(util.ParseError(err))
 		}
 
 		if err := validate.Struct(proj); err != nil {
+			h.logger.Error("validation errors", zap.Error(err))
 			return fiber.NewError(util.ParseError(err))
 		}
 
 		result, err := h.projectService.Update(proj)
 		if err != nil {
+			h.logger.Error("failed to update the project", zap.Error(err))
 			return fiber.NewError(util.ParseError(err))
 		}
 
@@ -82,11 +90,13 @@ func (h handler) DeleteById() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		id, err := util.GetNumericIdentifier(ctx, "id")
 		if err != nil {
+			h.logger.Error("failed to parse numeric ID", zap.Error(err))
 			return fiber.NewError(util.ParseError(err))
 		}
 
 		err = h.projectService.DeleteById(uint(id))
 		if err != nil {
+			h.logger.Error("failed to delete the project", zap.Error(err))
 			return fiber.NewError(util.ParseError(err))
 		}
 
