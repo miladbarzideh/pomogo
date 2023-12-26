@@ -8,8 +8,8 @@ import (
 
 type Project struct {
 	ID          uint   `gorm:"primaryKey"`
-	Title       string `gorm:"not null; size:100"`
-	Description string `gorm:"not null; size:200"`
+	Title       string `validate:"required" gorm:"not null; size:100"`
+	Description string `validate:"required" gorm:"not null; size:200"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
