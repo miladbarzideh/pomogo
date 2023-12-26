@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/miladbarzideh/pomogo/internal/domain/project"
+	"github.com/miladbarzideh/pomogo/internal/domain/util"
 	"go.uber.org/zap"
 )
 
@@ -24,31 +25,31 @@ func (h handler) Create() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		proj := new(project.Project)
 		if err := ctx.BodyParser(proj); err != nil {
-			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error()})
+			return fiber.NewError(util.ParseError(err))
 		}
 
 		result, err := h.projectService.Create(proj)
 		if err != nil {
-			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": err.Error()})
+			return fiber.NewError(util.ParseError(err))
 		}
 
-		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"status": "success", "data": fiber.Map{"note": result}})
+		return ctx.Status(fiber.StatusOK).JSON(result)
 	}
 }
 
 func (h handler) GetByID() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		id, err := strconv.Atoi(ctx.Params("id"))
+		id, err := util.GetNumericIdentifier(ctx, "id")
 		if err != nil {
-			return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{"status": "fail", "message": err.Error()})
+			return fiber.NewError(util.ParseError(err))
 		}
 
 		result, err := h.projectService.GetByID(uint(id))
 		if err != nil {
-			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": err.Error()})
+			return fiber.NewError(util.ParseError(err))
 		}
 
-		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"status": "success", "data": fiber.Map{"note": result}})
+		return ctx.Status(fiber.StatusOK).JSON(result)
 	}
 }
 
@@ -56,15 +57,15 @@ func (h handler) Update() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		proj := new(project.Project)
 		if err := ctx.BodyParser(proj); err != nil {
-			return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "fail", "message": err.Error()})
+			return fiber.NewError(util.ParseError(err))
 		}
 
 		result, err := h.projectService.Update(proj)
 		if err != nil {
-			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": err.Error()})
+			return fiber.NewError(util.ParseError(err))
 		}
 
-		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"status": "success", "data": fiber.Map{"note": result}})
+		return ctx.Status(fiber.StatusOK).JSON(result)
 	}
 }
 
@@ -72,14 +73,14 @@ func (h handler) DeleteById() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		id, err := strconv.Atoi(ctx.Params("id"))
 		if err != nil {
-			return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{"status": "fail", "message": err.Error()})
+			return fiber.NewError(util.ParseError(err))
 		}
 
 		err = h.projectService.DeleteById(uint(id))
 		if err != nil {
-			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": err.Error()})
+			return fiber.NewError(util.ParseError(err))
 		}
 
-		return ctx.Status(fiber.StatusNoContent).JSON(fiber.Map{"status": "success"})
+		return ctx.Status(fiber.StatusNoContent).JSON("")
 	}
 }
