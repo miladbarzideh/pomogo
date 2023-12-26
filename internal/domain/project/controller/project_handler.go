@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/miladbarzideh/pomogo/internal/domain/project"
 	"github.com/miladbarzideh/pomogo/internal/domain/util"
@@ -11,6 +12,8 @@ type handler struct {
 	projectService project.Service
 	logger         *zap.Logger
 }
+
+var validate = validator.New()
 
 func NewProjectHandler(projectService project.Service, logger *zap.Logger) project.Handler {
 	return &handler{
@@ -23,6 +26,10 @@ func (h handler) Create() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		proj := new(project.Project)
 		if err := ctx.BodyParser(proj); err != nil {
+			return fiber.NewError(util.ParseError(err))
+		}
+
+		if err := validate.Struct(proj); err != nil {
 			return fiber.NewError(util.ParseError(err))
 		}
 
@@ -55,6 +62,10 @@ func (h handler) Update() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		proj := new(project.Project)
 		if err := ctx.BodyParser(proj); err != nil {
+			return fiber.NewError(util.ParseError(err))
+		}
+
+		if err := validate.Struct(proj); err != nil {
 			return fiber.NewError(util.ParseError(err))
 		}
 
