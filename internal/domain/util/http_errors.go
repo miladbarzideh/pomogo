@@ -3,6 +3,7 @@ package util
 import (
 	"errors"
 	"fmt"
+	"github.com/go-playground/validator/v10"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -13,6 +14,7 @@ const (
 	BadRequestErrMessage     = "Bad request"
 	InternalServerErrMessage = "Internal server error"
 	NotFoundErrMessage       = "Not found"
+	ValidatorErrMessage      = "Validation error"
 )
 
 type ResponseError struct {
@@ -61,6 +63,7 @@ func NewNotFoundError(causes interface{}) ResponseError {
 
 func mapErrors(err error) ResponseError {
 	var resErr ResponseError
+	var valErr validator.ValidationErrors
 	switch {
 	case errors.As(err, &resErr):
 		return resErr
@@ -68,6 +71,8 @@ func mapErrors(err error) ResponseError {
 		return NewNotFoundError(err)
 	case errors.Is(err, fiber.ErrUnprocessableEntity):
 		return NewResponseError(fiber.ErrUnprocessableEntity.Code, fiber.ErrUnprocessableEntity.Message, err)
+	case errors.As(err, &valErr):
+		return NewResponseError(http.StatusBadRequest, ValidatorErrMessage, valErr)
 	default:
 		return NewResponseError(http.StatusInternalServerError, err.Error(), err)
 	}
