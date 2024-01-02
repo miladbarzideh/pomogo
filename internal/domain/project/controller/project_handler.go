@@ -22,6 +22,15 @@ func NewProjectHandler(projectService project.Service, logger *zap.Logger) proje
 	}
 }
 
+// Create project godoc
+// @Summary      Create a project
+// @Tags         projects
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  project.Project
+// @Failure      422  {object}  util.ResponseError
+// @Failure      400  {object}  util.ResponseError
+// @Router       /projects [post]
 func (h handler) Create() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		proj := new(project.Project)

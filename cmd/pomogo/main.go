@@ -10,6 +10,16 @@ import (
 	"go.uber.org/zap"
 )
 
+// @title Pomogo
+// @version 1.0
+// @description A To-Do list based on pomodoro technique
+
+// @contact.name Milad Barzideh
+// @contact.email barzidehmilad@gmail.com
+// @contact.url https://github.com/miladbarzideh
+
+// @host      localhost:8513
+// @BasePath /api/v1
 func main() {
 
 	cfg, err := config.Load()
