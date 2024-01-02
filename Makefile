@@ -37,6 +37,10 @@ swaggo:
 	echo "Starting swagger generating"
 	swag init -o ./api -g **/**/*.go
 
+swaggo_fmt:
+	echo "Starting format the SWAG comments"
+	swag fmt
+
 
 # ==============================================================================
 # Main
