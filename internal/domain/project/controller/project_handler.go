@@ -30,6 +30,7 @@ func NewProjectHandler(projectService project.Service, logger *zap.Logger) proje
 // @Success      200  {object}  project.Project
 // @Failure      422  {object}  util.ResponseError
 // @Failure      400  {object}  util.ResponseError
+// @Failure      500  {object}  util.ResponseError
 // @Router       /projects [post]
 func (h handler) Create() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
@@ -54,6 +55,17 @@ func (h handler) Create() fiber.Handler {
 	}
 }
 
+// GetByID project godoc
+// @Summary      Get a project by ID
+// @Tags         projects
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Project ID"
+// @Success      200  {object}  project.Project
+// @Failure      404  {object}  util.ResponseError
+// @Failure      400  {object}  util.ResponseError
+// @Failure      500  {object}  util.ResponseError
+// @Router       /projects/{id} [get]
 func (h handler) GetByID() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		id, err := util.GetNumericIdentifier(ctx, "id")
@@ -72,6 +84,14 @@ func (h handler) GetByID() fiber.Handler {
 	}
 }
 
+// GetAll project godoc
+// @Summary      Get all projects
+// @Tags         projects
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  project.Project
+// @Failure      500  {object}  util.ResponseError
+// @Router       /projects [get]
 func (h handler) GetAll() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		projects, err := h.projectService.GetAll()
@@ -84,6 +104,16 @@ func (h handler) GetAll() fiber.Handler {
 	}
 }
 
+// Update project godoc
+// @Summary      Update a project
+// @Tags         projects
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  project.Project
+// @Failure      404  {object}  util.ResponseError
+// @Failure      400  {object}  util.ResponseError
+// @Failure      500  {object}  util.ResponseError
+// @Router       /projects [put]
 func (h handler) Update() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		proj := new(project.Project)
@@ -107,6 +137,16 @@ func (h handler) Update() fiber.Handler {
 	}
 }
 
+// DeleteById project godoc
+// @Summary      Delete a project by ID
+// @Tags         projects
+// @Accept       json
+// @Produce      json
+// @Param        id   path      int  true  "Project ID"
+// @Success      200
+// @Failure      404  {object}  util.ResponseError
+// @Failure      500  {object}  util.ResponseError
+// @Router       /projects/{id} [delete]
 func (h handler) DeleteById() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		id, err := util.GetNumericIdentifier(ctx, "id")
