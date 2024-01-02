@@ -1,0 +1,162 @@
+basePath: /api/v1
+definitions:
+  project.Project:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - description
+    - title
+    type: object
+  util.ResponseError:
+    properties:
+      errCauses: {}
+      errError:
+        type: string
+      errStatus:
+        type: integer
+    type: object
+host: localhost:8513
+info:
+  contact:
+    email: barzidehmilad@gmail.com
+    name: Milad Barzideh
+    url: https://github.com/miladbarzideh
+  description: A To-Do list based on pomodoro technique
+  title: Pomogo
+  version: "1.0"
+paths:
+  /projects:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/project.Project'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseError'
+      summary: Get all projects
+      tags:
+      - projects
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/project.Project'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseError'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/util.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseError'
+      summary: Create a project
+      tags:
+      - projects
+    put:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/project.Project'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseError'
+      summary: Update a project
+      tags:
+      - projects
+  /projects/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseError'
+      summary: Delete a project by ID
+      tags:
+      - projects
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Project ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/project.Project'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.ResponseError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/util.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.ResponseError'
+      summary: Get a project by ID
+      tags:
+      - projects
+swagger: "2.0"
