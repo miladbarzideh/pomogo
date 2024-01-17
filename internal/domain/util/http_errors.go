@@ -27,6 +27,7 @@ type ResponseErr interface {
 	Status() int
 	Error() string
 	Causes() interface{}
+	Is(other error) bool
 }
 
 func (e ResponseError) Status() int {
@@ -39,6 +40,12 @@ func (e ResponseError) Error() string {
 
 func (e ResponseError) Causes() interface{} {
 	return e.ErrCauses
+}
+
+func (e ResponseError) Is(other error) bool {
+	var responseError ResponseError
+	ok := errors.As(other, &responseError)
+	return ok
 }
 
 func NewResponseError(status int, err string, causes interface{}) ResponseError {
@@ -62,11 +69,10 @@ func NewNotFoundError(causes interface{}) ResponseError {
 }
 
 func mapErrors(err error) ResponseError {
-	var resErr ResponseError
 	var valErr validator.ValidationErrors
 	switch {
-	case errors.As(err, &resErr):
-		return resErr
+	case errors.Is(err, ResponseError{}):
+		return err.(ResponseError)
 	case errors.Is(err, gorm.ErrRecordNotFound):
 		return NewNotFoundError(err)
 	case errors.Is(err, fiber.ErrUnprocessableEntity):
